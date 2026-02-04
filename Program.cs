@@ -19,9 +19,15 @@ namespace Shop_pv412
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IServiceProduct, ServiceProduct>();
-            builder.Services.AddIdentityCore<IdentityUser>(options =>
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
-                // Write validations
+                options.SignIn.RequireConfirmedEmail = true;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredUniqueChars = 0;
             })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<UsersContext>();
@@ -30,6 +36,8 @@ namespace Shop_pv412
             var app = builder.Build();
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseStaticFiles();
             app.MapControllerRoute(
                 name: "default",
