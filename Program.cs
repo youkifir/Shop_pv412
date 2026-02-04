@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Shop_pv412.Services;
 
@@ -12,7 +14,18 @@ namespace Shop_pv412
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            builder.Services.AddDbContext<UsersContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
             builder.Services.AddScoped<IServiceProduct, ServiceProduct>();
+            builder.Services.AddIdentityCore<IdentityUser>(options =>
+            {
+                // Write validations
+            })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<UsersContext>();
+
             builder.Services.AddControllersWithViews();
             var app = builder.Build();
 
