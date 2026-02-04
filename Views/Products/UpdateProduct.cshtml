@@ -1,2 +1,44 @@
-﻿@page
-<h1>UpdateProduct</h1>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Product
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Update";
+}
+
+<h1 class="mb-4">Update Product</h1>
+
+<div class="alert alert-info shadow-sm">
+    <h4 class="alert-heading">Current Data:</h4>
+    <hr>
+    <p class="mb-1"><strong>Id:</strong> @Model.Id</p>
+    <p class="mb-1"><strong>Name:</strong> @Model.Name</p>
+    <p class="mb-1"><strong>Price:</strong> @Model.Price</p>
+    <p class="mb-0"><strong>Description:</strong> @Model.Description</p>
+</div>
+
+<hr class="my-4" />
+
+<form asp-action="UpdateProduct" asp-controller="Products" method="post">
+    <div class="mb-3">
+        <label asp-for="Id" class="form-label">Id: </label>
+        <input asp-for="Id" class="form-control bg-light" readonly />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Name: </label>
+        <input asp-for="Name" class="form-control" placeholder="Input name" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label">Price: </label>
+        <input asp-for="Price" type="number" class="form-control" placeholder="Input price" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Description: </label>
+        <input asp-for="Description" type="text" class="form-control" placeholder="Input description" />
+    </div>
+
+    <div class="mt-4">
+        <input class="btn btn-primary" type="submit" value="Save Changes" />
+        <a asp-action="ReadProducts" asp-controller="Products" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>

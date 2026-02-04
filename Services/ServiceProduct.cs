@@ -9,7 +9,7 @@ namespace Shop_pv412.Services
         public Task<IEnumerable<Product>> GetAllAsync();
         public Task<Product> GetByIdAsync(int id);
         public Task<Product> UpdateAsync(int id, Product product);
-        public void DeleteAsync(int id);
+        public Task DeleteAsync(int id);
 
     }
     public class ServiceProduct : IServiceProduct
@@ -27,7 +27,7 @@ namespace Shop_pv412.Services
             return product;
         }
 
-        public async void DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             var product = await _db.Products.FirstAsync(p => p.Id == id);
             _db.Products.Remove(product);

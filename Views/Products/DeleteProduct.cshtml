@@ -1,2 +1,20 @@
-﻿@page
-<h1>DeleteProduct</h1>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model int
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Delete";
+}
+
+<h1 class="text-danger">Delete Product</h1>
+<p class="lead">Are you sure you want to delete this product?</p>
+
+<form asp-action="DeleteProduct" asp-controller="Products" method="post" class="mt-4">
+    <div class="mb-3" style="max-width: 300px;">
+        <label for="id" class="form-label">Product Id: </label>
+        <input name="id" class="form-control bg-light" value="@Model" readonly />
+    </div>
+
+    <input class="btn btn-danger" type="submit" value="Confirm Delete" />
+    <a asp-action="ReadProducts" asp-controller="Products" class="btn btn-secondary">Cancel</a>
+</form>

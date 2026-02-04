@@ -1,2 +1,46 @@
-﻿@page
-<h1>ReadProducts</h1>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<Product>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Read products";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+    <h1>Products List</h1>
+    <a asp-action="CreateProduct"
+       asp-controller="Products"
+       class="btn btn-success">
+        <i class="bi bi-plus-lg"></i> Create New
+    </a>
+</div>
+
+<table class="table table-striped table-hover table-bordered align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Description</th>
+            <th scope="col" style="width: 250px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td class="fw-bold">@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.Description</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="@Url.Action("UpdateProduct", new { id = product.Id })" class="btn btn-sm btn-outline-primary">Update</a>
+                        <a href="@Url.Action("DetailsProduct", new { id = product.Id })" class="btn btn-sm btn-outline-info">Details</a>
+                        <a href="@Url.Action("GetDeleteProduct", new { id = product.Id })" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

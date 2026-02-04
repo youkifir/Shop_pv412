@@ -1,2 +1,34 @@
-﻿@page
-<h1>Create Product</h1>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Product
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create New Product</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="CreateProduct" asp-controller="Products" method="post">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Name: </label>
+                <input asp-for="Name" class="form-control" placeholder="Input name" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Price" class="form-label">Price: </label>
+                <input asp-for="Price" type="number" class="form-control" placeholder="Input price" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Description: </label>
+                <input asp-for="Description" type="text" class="form-control" placeholder="Input description" />
+            </div>
+
+            <div class="mt-4">
+                <input class="btn btn-primary" type="submit" value="Create Product" />
+                <a asp-action="ReadProducts" asp-controller="Products" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
