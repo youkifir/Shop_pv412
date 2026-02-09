@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shop_pv412.Services;
 
 namespace Shop_pv412.Controllers
@@ -22,6 +23,7 @@ namespace Shop_pv412.Controllers
 
         //GET: /Products/Create
         [HttpGet]
+        [Authorize]
         public IActionResult CreateProduct()
         {
             return View();
@@ -29,6 +31,7 @@ namespace Shop_pv412.Controllers
 
         //POST: /Products/Create
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProduct([Bind(
             "Name,Price,Description")]Product product)
@@ -44,6 +47,7 @@ namespace Shop_pv412.Controllers
 
         //GET: /Products/Update
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> UpdateProduct(int? id)
         {
             if (id == null || id == 0)
@@ -63,6 +67,7 @@ namespace Shop_pv412.Controllers
 
         //POST: /Products/Update
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateProduct(int id, [Bind(
             "Id,Name,Price,Description")]Product product)
@@ -77,6 +82,7 @@ namespace Shop_pv412.Controllers
 
         //GET: /Products/Delete
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetDeleteProduct(int id)
         {
             return View("DeleteProduct", id);
@@ -84,6 +90,7 @@ namespace Shop_pv412.Controllers
 
         //POST: /Products/Delete
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteProduct(int id)
         {

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,21 @@ namespace Shop_pv412
             })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<UsersContext>();
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = "ShopApp.Auth";
+                options.ExpireTimeSpan = TimeSpan.FromSeconds(10);
 
+                options.SlidingExpiration = true;
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SameSite = SameSiteMode.Lax;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
+                options.LoginPath = "/Users/Login";
+                options.AccessDeniedPath = "/Users/Login";
+            });
+
+            builder.Services.AddSession();
             builder.Services.AddControllersWithViews();
             var app = builder.Build();
 

@@ -16,11 +16,13 @@ namespace Shop_pv412.Controllers
             _roleManager = roleManager;
             _signInManager = signInManager;
         }
+        //Get: Users/Register
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+        //Post: Users/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([Bind
@@ -41,10 +43,36 @@ namespace Shop_pv412.Controllers
             }
             return View();
         }
+        //Get: Users/Login
         [HttpGet]
         public IActionResult Login()
         {
             return View();
+        }
+        //Post: Users/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login([Bind("UserName,PasswordHash")] IdentityUser user)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, user.PasswordHash, false, false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return BadRequest("Error[01]");
+                }
+            }
+            return BadRequest("Error[02]");
+        }
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
         [HttpGet]
         public IActionResult CreateRole()
