@@ -23,7 +23,7 @@ namespace Shop_pv412.Controllers
 
         //GET: /Products/Create
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "admin,moderator")]
         public IActionResult CreateProduct()
         {
             return View();
@@ -31,7 +31,7 @@ namespace Shop_pv412.Controllers
 
         //POST: /Products/Create
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin,moderator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProduct([Bind(
             "Name,Price,Description")]Product product)
@@ -47,7 +47,7 @@ namespace Shop_pv412.Controllers
 
         //GET: /Products/Update
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "admin,moderator")]
         public async Task<IActionResult> UpdateProduct(int? id)
         {
             if (id == null || id == 0)
@@ -67,7 +67,7 @@ namespace Shop_pv412.Controllers
 
         //POST: /Products/Update
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin,moderator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateProduct(int id, [Bind(
             "Id,Name,Price,Description")]Product product)
@@ -82,7 +82,7 @@ namespace Shop_pv412.Controllers
 
         //GET: /Products/Delete
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Roles = "admin,moderator")]
         public IActionResult GetDeleteProduct(int id)
         {
             return View("DeleteProduct", id);
@@ -90,8 +90,7 @@ namespace Shop_pv412.Controllers
 
         //POST: /Products/Delete
         [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles ="admin,moderator")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             await _serviceProduct.DeleteAsync(id);

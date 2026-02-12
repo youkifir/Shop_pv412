@@ -79,10 +79,50 @@ namespace Shop_pv412.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public IActionResult AssignRole()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateRole([Bind("Name")] IdentityRole newRole)
         {
+            if (ModelState.IsValid)
+            {
+                var result = await _roleManager.CreateAsync(newRole);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return BadRequest("Error");
+                }
+            }
             return View();
+        }
+        [HttpGet]
+        public IActionResult AssignRole() => View();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignRole(string roleId, string userId)
+        {
+            if (string.IsNullOrEmpty(roleId) || string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("Error[01]");
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest("Error[02]");
+            }
+            var role = await _roleManager.FindByIdAsync(roleId);
+            if (role == null)
+            {
+                return BadRequest("Error[03]");
+            }
+            var result = await _userManager.AddToRoleAsync(user, role.Name);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return BadRequest(result);
         }
     }
 }
